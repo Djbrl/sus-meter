@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'shrimp';
+    src: url('./../public/SHRIMP.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+/* 
+@font-face {
+    font-family: 'martian-mono';
+    src: url('./../public/fonts/MartianMono-Bold.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'switzer';
+    src: url('./../public/fonts/Switzer-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+} */

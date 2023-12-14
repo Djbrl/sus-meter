@@ -1,0 +1,61 @@
+version: "3.3"
+
+services:
+
+  # db:
+  #   image: postgres
+  #   restart: always
+  #   volumes:
+  #     - db-data:/var/lib/postgresql/data
+  #   environment:
+  #     - POSTGRES_PASSWORD=postgres
+  #   networks:
+  #     - transcendence
+
+  backend:
+    # build:
+    #   context: ./backend
+    #   dockerfile: Dockerfile
+    # image: 42dsy/sus-meter-backend:dev/
+    image: node-18-alpine
+    restart: always
+    command: npm start
+    working_dir: /backend
+    volumes:
+      - /backend
+      # - ./backend:/backend
+    # depends_on:
+    #   - db
+    ports:
+      - 3001:3000
+    networks:
+      - sus-meter
+    env_file:
+      - .env
+
+  frontend:
+    # build:
+    #   context: ./frontend
+    #   dockerfile: Dockerfile
+    # image: 42dsy/sus-meter-frontend:dev
+    image: node-18-alpine
+    restart: always
+    command: npm run serve
+    working_dir: /frontend
+    volumes:
+      - /frontend
+      # - ./frontend:/frontend
+    depends_on:
+      - backend
+    ports:
+      - 3000:8080
+    networks:
+      - sus-meter
+
+volumes:
+  db-data:
+    driver: local
+
+networks:
+  sus-meter:
+    driver: bridge
