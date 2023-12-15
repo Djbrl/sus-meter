@@ -11,6 +11,11 @@ export interface userProfile {
     link?: string
 }
 
+export interface userFollowingData {
+    list: Array<userProfile>,
+    listOwner: userProfile
+}
+
 export class SusWords {
     susKeywords: Array<string>;
     potentiallySusKeywords: Array<string>;

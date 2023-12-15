@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { SusWords, userProfile } from './sus-meter.dto';
+import { SusWords, userProfile, userFollowingData } from './sus-meter.dto';
 
 @Injectable()
 export class TwitterScraper {
@@ -72,9 +72,9 @@ export class TwitterScraper {
 	getUserByUsername = async (username:string): Promise<userProfile|null> => {
 		try {
 			const response = await fetch(this.createFetchUserIdByUsernameUrl(username),this.fetchRequestArguments as RequestInit);
-		  const jsonData:any = await response.json();
-		  if (jsonData.data.user.result === undefined){
-			  return null;
+			const jsonData:any = await response.json();
+			if (jsonData.data?.user?.result === undefined){
+				return null;
 		  }
 		  return {
 			  userId: jsonData.data.user.result.rest_id,
@@ -91,7 +91,7 @@ export class TwitterScraper {
 		}
 	};
 
-  getUserFollowingList = async (screen_name:string): Promise <Array<userProfile>> => {
+  getUserFollowingList = async (screen_name:string): Promise <userFollowingData|Array<any>> => {
 	  let   pagination:number = 1;
 	  let   numberOfEntries:number = 0;
 	  let   totalEntriesFetched:number = 0;
@@ -106,7 +106,7 @@ export class TwitterScraper {
 	  }
 	  console.log(`userId for @${screen_name}:`, userProfile.userId);
 
-	  while (nextCursor[0] !== '0'){
+	  while (nextCursor[0] !== '0' && pagination < 20){
 		  const currentPage = await this.getUserFollowingListPage(userProfile.userId, nextCursor);
 		  if(currentPage === null){
 			  console.log(`Couldn't fetch page ${pagination} from following list for @${screen_name}.`)
@@ -143,12 +143,23 @@ export class TwitterScraper {
 	  }
 
 	  console.log("Total number of entries fetched :", totalEntriesFetched, "/", userProfile.friends_count)
-	  return followingList;
+	  return {
+		list: followingList,
+		listOwner: userProfile
+	  };
 	}
 
-	getSusFollowingFromUser = async (username:string) => {
+	//TODO : find a better type overlap to handle, switch to NULL potentially
+	getSusFollowingFromUser = async (username:string|null):Promise<userFollowingData|Array<any>> => {
 		let     susUsers = []
-		const   followingList:Array<userProfile> = await this.getUserFollowingList(username);
+		const   res:any = await this.getUserFollowingList(username);
+		if (res.list === undefined){
+			return ;
+		}
+		const followingList:Array<userProfile> = res.list;
+		if (followingList.length === 0){
+			return [];
+		}
 
 		followingList.forEach(user => {
 		  let userSusMeter = 0;
@@ -191,6 +202,9 @@ export class TwitterScraper {
 	  });
 
 	  susUsers.sort((a, b) => b.susMeter - a.susMeter);
-	  return susUsers;
+	  return {
+		list: susUsers,
+		listOwner: res.listOwner
+	  };
   }
 }
