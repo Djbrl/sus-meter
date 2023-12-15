@@ -1,24 +1,85 @@
 <template>
-  <div class="bg-stone-900 min-h-screen">
-    <header class="min-w-[700px]">
-      <div class="p-2 shadow-md bg-stone-900 hover:bg-stone-800 hover:cursor-pointer text-xs border-4 border-stone-600 rounded-lg m-4 inline-block" @click="goToGithub">
+  <div class="bg-stone-900 min-h-screen flex-col flex">
+    <header class="min-w-[700px] mb-auto">
+      <div class="p-2 bg-stone-900 hover:bg-stone-800 hover:cursor-pointer text-xs rounded-lg ml-4 mr-2 mt-2 inline-block" @click="goToGithub">
         <div class="flex">
           <div class="flex-col flex justify-center">
-            <p class="text-xs font-bold font-sans text-stone-400 antialiased">Find it on <span class="text-purple-400">GitHub</span></p>
+            <p class="text-xs font-bold font-sans text-stone-400 antialiased">Find us on <span class="text-purple-400">GitHub</span></p>
           </div>
           <img src="/github-mark/github-mark.svg" class="bg-stone-200 rounded-full p-1 w-7 h-7 ml-2"/>
         </div>
       </div>
-      <p class="text-xs text-center hover:text-stone-300 hover:cursor-pointer text-stone-400 bg-stone-700 rounded-lg px-2 py-1 m-1 inline-block">Grading System</p>
+      <p @click="toggleGradingSystem" class="text-xs text-center hover:text-stone-300 hover:cursor-pointer text-stone-400 rounded-lg px-2 py-1 m-1 inline-block">Grading System</p>
+      <p @click="toggleWhyBlur" class="text-xs text-center hover:text-stone-300 hover:cursor-pointer text-stone-400 rounded-lg px-2 py-1 m-1 inline-block">Why are results blurred ?</p>
     </header>
     <body class="flex">
       <sidebar class="w-1/5">
       </sidebar>
 
+      <div v-if="state.showGradingSystem" class="fixed inset-0 flex items-center justify-center backdrop-filter backdrop-blur-[4px]">
+        <div  class="bg-stone-800 text-stone-300 p-4 text-left text-sm rounded-lg max-w-[550px]">
+          <!-- Your modal content goes here -->
+          <p class="font-semi-bold text-center text-purple-200 text-2xl mb-4"><span class="font-shrimp font-bold">sus-meter</span> Grading System</p>
+          
+          <div class="m-1 rounded-lg bg-stone-900 px-5 py-4">
+            <!-- Explaination of Sus Meter -->
+            <div class="mb-4">
+              <p><span class="font-shrimp font-semi-bold">sus-meter</span> is a <span class="underline">TwitterScraper</span> application that provides an overall NSFW rating for a Twitter account based on the percentage of accounts in their following list that are match suspicious keywords and links.</p>
+            </div>
+            
+            <div  class="flex flex-col items-center">
+              <div :class="gradeClass(0)">
+                <p><span class="font-bold">Grade <span class="rounded-lg px-2 py-1 bg-black/30 text-base">😌</span></span></p>
+              </div>
+              <p class="m-2 text-xs font-bold">SFW (@username only)</p>
+              <div :class="gradeClass(3)">
+                <p><span class="font-bold">Grade <span class="rounded-lg px-2 py-1 bg-black/30 text-base">🧐</span></span></p>
+              </div>
+              <p class="m-2 text-xs font-bold">Mmmmh...</p>
+              <div :class="gradeClass(6)">
+                <p><span class="font-bold">Grade <span class="rounded-lg px-2 py-1 bg-black/30 text-base">🤨</span></span></p>
+              </div>
+              <p class="m-2 text-xs font-bold">Suspicious</p>
+              <div :class="gradeClass(9)">
+                <p><span class="font-bold">Grade <span class="rounded-lg px-2 py-1 bg-black/30 text-base">🍑</span></span></p>
+              </div>
+              <p class="m-2 text-xs font-bold">NSFW</p>
+              <div :class="gradeClass(12)">
+                <p><span class="font-bold">Grade <span class="rounded-lg px-2 py-1 bg-black/30 text-base">😈</span></span></p>
+              </div>
+              <p class="m-2 text-xs font-bold">Super NSFW</p>
+              <div :class="gradeClass(15)">
+                <p><span class="font-bold">Grade <span class="rounded-lg px-2 py-1 bg-black/30 text-base">🍑🧲</span></span></p>
+              </div>
+              <p class="m-2 text-xs font-bold">NSFW Magnet</p>
+            </div>
+            <p>The <span class="mt-1 font-shrimp font-semi-bold">sus-meter</span> of a @username is the <span class="font-bold">percentage</span> of <span class="font-bold text-orange-500">Suspicious</span> or above accounts they follow.</p>
+            <div @click.self="toggleGradingSystem" class="fixed inset-0"></div>
+          </div>
+        </div>
+      </div>
+
+      <div v-if="state.showWhyBlur" class="fixed inset-0 flex items-center justify-center backdrop-filter backdrop-blur-[4px]">
+        <div  class="bg-stone-800 text-stone-300 p-4 text-left text-sm rounded-lg max-w-[550px]">
+          <!-- Your modal content goes here -->
+          <p class="font-semi-bold text-center text-purple-200 text-2xl mb-4"><span class="font-shrimp font-bold">sus-meter</span> Privacy and Protection Policy</p>
+          
+          <div class="m-1 rounded-lg bg-stone-900 px-5 py-4">
+            <!-- Explaination of Sus Meter -->
+            <div class="mb-4">
+              <p class="text-center"><span class="font-shrimp font-semi-bold">sus-meter</span> takes a playful approach to self-moderation and assists its users in building a safer environment for themselves online. However, to make sure that our application is used for its intended purpose and to protect underage users from exposure to NSFW content, search results are intentionally blurred. <br><br>By concealing specific details, such as profile pictures, screen names and potentially sensitive information, <span class="font-bold font-shrimp">sus-meter</span> aims to minimize ways to reach listed accounts. <br><br>This strategy isn't infallible and ultimately blurring serves as a road-blocking measure, so we call every user of our application to act responsibly and in accordance with our vision.<br><br>🌡️</p>
+            </div>
+            <div @click.self="toggleWhyBlur" class="fixed inset-0"></div>
+          </div>
+
+        </div>
+      </div>
+
+
         <div class="rounded-lg p-4 m-4 items-center w-3/5 min-w-[900px]">
           <div class="rounded-lg p-4 m-4 items-center">
             <p class="text-9xl text-center text-purple-400 font-shrimp ">sus-meter</p>
-            <p class="text-xs text-center text-stone-400">Find out how nsfw your twitter following is 🫣</p>
+            <p class="text-xs text-center text-stone-400">Get the NSFW Rating of any Twitter account</p>
             <div class="flex flex-col border-black-3 items-center">
               <div class="m-5 flex text-stone-500">
                 <div class="flex-col flex justify-center ">
@@ -28,7 +89,7 @@
               </div>
               <p v-if="state.noUser" class="text-xs text-center text-stone-400">User @{{ state.username }} doesn't exist.</p>
               <div v-if="state.fetchLoader" class="animate-bounce text-3xl text-peach-500">
-                🍑
+                🤔
               </div>
 
               <div v-if="state.cancelTime > 2">
@@ -76,7 +137,7 @@
                         
                         <!-- Grade -->
                         <div class="flex-grow"></div>
-                        <div classs="inline-block">
+                        <div class="inline-block" @click="toggleGradingSystem">
                           <div class="flex justify-center text-sm">
                             <div :class="susMeter(state.sus_meter)">
                               <p v-if="state.sus_meter < 4"><span class="font-bold"> Sus Meter <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">😌</span></span></p>
@@ -110,13 +171,15 @@
                 </div>
               </div>
 
-              <p class="text-xs text-center text-stone-400 m-4"> {{ state.results.length }} results found for @{{ state.user.screen_name }} </p>
+              <p v-if="state.finalResults.length > 1" class="text-xs text-center text-stone-400 m-4"> {{ state.finalResults.length }} results found for @{{ state.user.screen_name }} </p>
+              <p v-if="state.finalResults.length == 1" class="text-xs text-center text-stone-400 m-4"> {{ state.finalResults.length }} result found for @{{ state.user.screen_name }} </p>
+              <p v-if="state.finalResults.length == 0" class="text-xs text-center text-stone-400 m-4"> {{ state.finalResults.length }} results found for @{{ state.user.screen_name }} </p>
               <div class="max-h-80 overflow-y-auto rounded-lg p-2 bg-stone-900 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4">
-                <div v-for="item in state.results" :key="item.id" class="bg-stone-800 rounded-lg min-w-[350px] max-w-[350-px] p-4 shadow-md text-xs flex flex-col">
-                  <div class="flex">
+                <div v-for="item in state.finalResults" :key="item.id" class="bg-stone-800 hover:cursor-pointer rounded-lg max-w-[200-px] p-4 shadow-md text-xs flex flex-col">
+                  <div v-if="item.susMeter > 3" class="flex">
                     <!-- Left block with rounded profile picture -->
-                    <div class="max-w-[60px] min-w-[60px]">
-                      <img :src="item.profile_picture" alt="Profile Picture" class="hover:cursor-pointer w-15 h-15 rounded-full" @click="goToTwitter(item.screen_name)">
+                    <div class="max-w-[60px] min-w-[60px]" @click="toggleWhyBlur">
+                      <img :src="item.profile_picture" alt="Profile Picture" class="w-15 h-15 rounded-full blur-[6px]">
                     </div>
           
                     <!-- Right block with details -->
@@ -125,14 +188,14 @@
                       <!-- username and grade -->
                       <div class="flex mb-4">
                         
-                        <div class="hover:bg-stone-700 inline-block rounded-lg px-2 py-1 hover:cursor-pointer hover:bg-stone-600 mr-2 max-w-[200px]" @click="goToTwitter(item.screen_name)">
+                        <div class="inline-block rounded-lg px-2 py-1 mr-2 max-w-[150px] blur-[6px]" @click="toggleWhyBlur">
                           <p class="text-xl font-bold whitespace-nowrap overflow-ellipsis overflow-hidden">{{ item.screen_name }}</p>
                           <p class="text-stone-400 whitespace-nowrap overflow-ellipsis overflow-hidden">{{ item.name }}</p>
                         </div>
                         
                         <!-- Grade -->
                         <div class="flex-grow"></div> <!-- This will push the Grade block to the bottom -->
-                        <div classs="inline-block">
+                        <div classs="inline-block" @click="toggleGradingSystem">
                           <div class="flex justify-center text-sm">
                             <div :class="gradeClass(item.susMeter)">
                               <p v-if="item.susMeter < 2"><span class="font-bold"> Grade <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">😌</span></span></p>
@@ -149,10 +212,10 @@
                       </div>
   
   
-                      <p>{{ item.description }}</p>
+                      <p class="blur-[5px]" @click="toggleWhyBlur">{{ item.description }}</p>
           
                       <!-- Two blocks at the bottom -->
-                      <div class="flex mt-2">
+                      <div class="flex mt-2 blur-[5px]" @click="toggleWhyBlur">
                         <div class="mr-4">
                           <p>{{ item.friends_count }} <span class="font-bold"> Following</span> </p>
                         </div>
@@ -172,7 +235,11 @@
       
       <sidebar class="w-1/5">
       </sidebar>
-      </body>
+    </body>
+    <footer class="mt-auto bg-stone-900 flex text-stone-400 text-xs p-4 text-center w-full">
+      <p class="ml-auto"><a href="https://ko-fi.com/susmeter" target="_blank" class="underline">Ko-Fi</a></p>
+      <p class="ml-3"><a href="https://github.com/Djbrl/sus-meter" target="_blank" class="underline">GitHub</a></p>
+    </footer>
   </div>
 </template>
 
@@ -180,6 +247,7 @@
 import { reactive, onMounted, onUnmounted } from 'vue';
 
 const state = reactive({
+  finalResults: [],
   user: {},
   username: '',
   results: [],
@@ -190,7 +258,17 @@ const state = reactive({
   resultSummary : false,
   cancelTime: 0,
   abortController: null,
+  showGradingSystem: false,
+  showWhyBlur: false,
 });
+
+const toggleGradingSystem = () => {
+  state.showGradingSystem = !state.showGradingSystem;
+}
+
+const toggleWhyBlur = () => {
+  state.showWhyBlur = !state.showWhyBlur;
+}
 
 const showNoResults = async () => {
   state.noResults = true; 
@@ -223,6 +301,7 @@ const fetchData = async (input) => {
   if (username === ''){
     console.log("no input.")
     state.username = '';
+    state.results = []
     return ;
   }
 
@@ -236,8 +315,9 @@ const fetchData = async (input) => {
   }, 1000);
 
   try {
+    console.log(`${process.env.BACKEND_IP}:${process.env.BACKEND_HOST_PORT}`)
     state.fetchLoader = true;
-    const response = await fetch(`http://localhost:3001/getSusFollowingForUser/${username}`, { signal });
+    const response = await fetch(`${process.env.BACKEND_IP}:${process.env.BACKEND_HOST_PORT}/getSusFollowingForUser/${username}`, { signal });
     const data = await response.json();
     console.log(data)
 
@@ -253,10 +333,10 @@ const fetchData = async (input) => {
       state.noResults = true;
     }
 
-    state.username = ''
     state.fetchLoader = false
     state.user = data.listOwner;
     state.results = data.list
+    state.finalResults = data.list.filter( user => user.susMeter > 3)
     state.sus_meter = (state.results.length / state.user.friends_count) * 100
   } catch (error) {
     if (error.name === 'AbortError') {
@@ -336,6 +416,8 @@ export default {
       cancelFetch,
       goToTwitter,
       goToGithub,
+      toggleGradingSystem,
+      toggleWhyBlur,
     };
   },
 };
