@@ -83,7 +83,7 @@ export class TwitterScraper {
 			  description: jsonData.data.user.result.legacy.description,
 			  friends_count: jsonData.data.user.result.legacy.friends_count,
 			  followers_count: jsonData.data.user.result.legacy.followers_count,
-			  profile_picture: jsonData.data.user.result.legacy.profile_image_url_https
+			  profile_picture: jsonData.data.user.result.legacy.profile_image_url_https.replace("normal.jpg", "400x400.jpg")
 		  };
 		} catch (error) {
 			console.error('Error in getUserIdByUsername:', error);
@@ -102,7 +102,10 @@ export class TwitterScraper {
 	  const userProfile:userProfile = await this.getUserByUsername(screen_name);
 	  if (userProfile === null){
 		  console.log(`Couldn't fetch userId for ${screen_name}.`)
-		  return [];
+		  return {
+			list: followingList,
+			listOwner: null
+		  };
 	  }
 	  console.log(`userId for @${screen_name}:`, userProfile.userId);
 
@@ -110,7 +113,10 @@ export class TwitterScraper {
 		  const currentPage = await this.getUserFollowingListPage(userProfile.userId, nextCursor);
 		  if(currentPage === null){
 			  console.log(`Couldn't fetch page ${pagination} from following list for @${screen_name}.`)
-			  return [];
+			  return {
+				list: followingList,
+				listOwner: userProfile
+			  };
 		  }
 
 		  numberOfEntries = currentPage.entries.length;
@@ -118,6 +124,13 @@ export class TwitterScraper {
 		  console.log(`Fetched ${numberOfEntries} users on page ${pagination}...`)
 		  if (numberOfEntries > 2){
 			  nextCursor = currentPage.entries[numberOfEntries - 2].content.value.split('|')
+		  }
+		  else {
+			console.log("Total number of entries fetched :", totalEntriesFetched, "/", userProfile.friends_count)
+			return {
+				list: followingList,
+				listOwner: userProfile
+			};
 		  }
 
 		  currentPage.entries
@@ -153,12 +166,13 @@ export class TwitterScraper {
 	getSusFollowingFromUser = async (username:string|null):Promise<userFollowingData|Array<any>> => {
 		let     susUsers = []
 		const   res:any = await this.getUserFollowingList(username);
-		if (res.list === undefined){
-			return ;
-		}
+
 		const followingList:Array<userProfile> = res.list;
 		if (followingList.length === 0){
-			return [];
+			return {
+				list: susUsers,
+				listOwner: res.listOwner
+			  };
 		}
 
 		followingList.forEach(user => {
