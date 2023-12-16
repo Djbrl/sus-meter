@@ -315,9 +315,8 @@ const fetchData = async (input) => {
   }, 1000);
 
   try {
-    console.log(`${process.env.BACKEND_IP}:${process.env.BACKEND_HOST_PORT}`)
     state.fetchLoader = true;
-    const response = await fetch(`${process.env.BACKEND_IP}:${process.env.BACKEND_HOST_PORT}/getSusFollowingForUser/${username}`, { signal });
+    const response = await fetch(`${process.env.VUE_APP_BACKEND_IP}/getSusFollowingForUser/${username}`, { signal });
     const data = await response.json();
     console.log(data)
 
