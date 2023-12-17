@@ -10,22 +10,15 @@ services:
   #   environment:
   #     - POSTGRES_PASSWORD=postgres
   #   networks:
-  #     - transcendence
+  #     - sus-meter
 
   backend:
-    # build:
-    #   context: ./backend
-    #   dockerfile: Dockerfile
-    # image: 42dsy/sus-meter-backend:dev/
     image: node:18-alpine
     restart: always
     command: npm start
     working_dir: /backend
     volumes:
-      # - /backend
       - ./backend:/backend
-    # depends_on:
-    #   - db
     ports:
       - ${BACKEND_HOST_PORT}:${BACKEND_CONTAINER_PORT}
     networks:
@@ -34,16 +27,11 @@ services:
       - .env
 
   frontend:
-    # build:
-    #   context: ./frontend
-    #   dockerfile: Dockerfile
-    # image: 42dsy/sus-meter-frontend:dev
     image: node:18-alpine
     restart: always
     command: npm run serve
     working_dir: /frontend
     volumes:
-      # - /frontend
       - ./frontend:/frontend
     depends_on:
       - backend
