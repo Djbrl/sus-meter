@@ -83,7 +83,7 @@ export class TwitterScraper {
 			  description: jsonData.data.user.result.legacy.description,
 			  friends_count: jsonData.data.user.result.legacy.friends_count,
 			  followers_count: jsonData.data.user.result.legacy.followers_count,
-			  profile_picture: jsonData.data.user.result.legacy.profile_image_url_https.replace("normal.jpg", "400x400.jpg")
+			  profile_picture: jsonData.data.user.result.legacy.profile_image_url_https.replace("normal.jpg", "400x400.jpg") //work the json instead of calling the func
 		  };
 		} catch (error) {
 			console.error('Error in getUserIdByUsername:', error);
@@ -91,6 +91,7 @@ export class TwitterScraper {
 		}
 	};
 
+  //TODO : Improve with caching
   getUserFollowingList = async (screen_name:string): Promise <userFollowingData|Array<any>> => {
 	  let   pagination:number = 1;
 	  let   numberOfEntries:number = 0;

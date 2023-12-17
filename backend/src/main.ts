@@ -7,7 +7,7 @@ async function bootstrap() {
 
   app.enableCors({
     origin: [
-        `${process.env.FRONTEND_IP}:${process.env.FRONTEND_HOST_PORT}`,
+        `http:localhost:${process.env.FRONTEND_HOST_PORT}`,
     ],
     credentials: true,
   });
