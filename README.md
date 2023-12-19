@@ -1,6 +1,6 @@
 # sus-meter
 
-sus-meter is a web application built using NEST.js for the backend and Vue.js for the frontend, providing an easy way to discover the NSFW rating of a Twitter account through keyword matching. The application is deployed using Docker on a cloud machine and is currently accessible at [http://165.22.67.251:3000](http://sus-meter.com).
+sus-meter is a web application built using NEST.js for the backend and Vue.js for the frontend, providing an easy way to discover the NSFW rating of a Twitter account through keyword matching. The application is deployed using Docker on a cloud machine and is currently accessible at [http://sus-meter.com](http://sus-meter.com).
 
 ## Features
 - **NSFW Rating**: Find out the NSFW rating of a Twitter account based on keyword matching.
