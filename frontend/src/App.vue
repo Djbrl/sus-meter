@@ -26,8 +26,8 @@
             <div class="flex justify-center items-center">
               <UserCard :state="state" :toggleGradingSystem="toggleGradingSystem" :susMeter="susMeter"/>
             </div>
-            <p v-if="state.displayResults.length > 1" class="text-xs text-center text-stone-400 m-4"> {{ state.displayResults.length }} results found for @{{ state.user.screen_name }} </p>
-            <p v-if="state.displayResults.length == 1" class="text-xs text-center text-stone-400 m-4"> {{ state.displayResults.length }} result found for @{{ state.user.screen_name }} </p>
+            <p v-if="state.displayResults.length > 1" class="text-xs text-center text-stone-400 m-4"> <span class="font-bold">{{ state.displayResults.length }}</span> out of <span class="font-bold">{{ state.user.friends_count }}</span> results found for @{{ state.user.screen_name }} </p>
+            <p v-if="state.displayResults.length == 1" class="text-xs text-center text-stone-400 m-4"> {{ state.displayResults.length }} out of <span class="font-bold">{{ state.user.friends_count }}</span> results found for @{{ state.user.screen_name }} </p>
             <p v-if="state.displayResults.length == 0" class="text-xs text-center text-stone-400 m-4"> {{ state.displayResults.length }} results found for @{{ state.user.screen_name }} </p>
             <div class="max-h-80 overflow-y-auto rounded-lg p-2 bg-stone-900 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 max-w-[800px]">
               <div v-for="item in state.displayResults" :key="item.id" class="bg-stone-800 hover:cursor-pointer rounded-lg p-4 shadow-md text-xs flex flex-col">
@@ -107,6 +107,7 @@ const resetDataState = () => {
   state.noResults = false
   state.fetchLoader = false
   state.cancelTime = 0
+  state.sus_meter = 0
 }
 
 //TODO : Improve this with caching
@@ -143,7 +144,7 @@ const fetchData = async (input) => {
     state.user = data.listOwner;
     state.results = data.list
     state.displayResults = data.list.filter( user => user.susMeter > 3)
-    state.sus_meter = (state.results.length / state.user.friends_count) * 100
+    calculateUserSusMeter()
   } catch (error) {
     if (error.name === 'AbortError') {
       console.log('Fetch operation aborted:', error.message);
@@ -157,6 +158,16 @@ const fetchData = async (input) => {
     resetDataState()
   }
 };
+
+const calculateUserSusMeter = () => {
+  if (state.displayResults.length === 0){
+    state.sus_meter = 0;
+    return 
+  }
+  state.displayResults.forEach(user => {
+    state.sus_meter += user.susMeter
+  });
+}
 
 const gradeClass = (susMeter) => {
   if (susMeter < 2) {
@@ -173,14 +184,16 @@ const gradeClass = (susMeter) => {
 }
   
 const susMeter = (susMeter) => {
-  if (susMeter < 4) {
+  if (susMeter < 15) {
     return 'text-sm inline-block text-center hover:cursor-pointer hover:bg-emerald-600/90 bg-emerald-500/90 rounded-lg text-stone-100 px-2 py-1'; // Change this to the desired color class for susMeter < 2
-  } else if (susMeter >= 4 && susMeter < 8) {
+  } else if (susMeter >= 15 && susMeter < 100) {
     return 'text-sm inline-block text-center hover:cursor-pointer hover:bg-orange-600/90 bg-orange-500/90 rounded-lg text-stone-100 px-2 py-1'; // Change this to the desired color class for susMeter between 3 and 8
-  } else if (susMeter >= 8 && susMeter < 15) {
+  } else if (susMeter >= 100 && susMeter <500) {
     return 'text-sm inline-block text-center hover:cursor-pointer hover:bg-violet-700/90 bg-violet-600/90 rounded-lg text-stone-100 px-2 py-1'; // Change this to the desired color class for susMeter between 8 and 12
-  } else if (susMeter >= 15) {
+  } else if (susMeter >= 500 && susMeter < 1000) {
     return 'text-sm inline-block text-center hover:cursor-pointer hover:bg-pink-700/90 bg-pink-600/90 rounded-lg text-stone-100 px-2 py-1'; // Change this to the desired color class for susMeter > 12
+  } else if (susMeter >= 1000) {
+    return 'text-sm inline-block text-center hover:cursor-pointer bg-gradient-to-r from-pink-600/90 to-blue-500/90 rounded-lg text-stone-100 px-2 py-1'; // Change this to the desired color class for susMeter > 12
   }
 }
   
@@ -221,6 +234,7 @@ export default {
       toggleGradingSystem,
       toggleWhyBlur,
       resetDataState,
+      calculateUserSusMeter,
     };
   },
   components: {

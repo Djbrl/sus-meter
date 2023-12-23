@@ -30,8 +30,8 @@
                     <p v-if="state.sus_meter < 4"><span class="font-bold"> Sus Meter <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">😌</span></span></p>
                     <p v-if="state.sus_meter >= 4 && state.sus_meter < 8"><span class="font-bold"> Sus Meter <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">🤨</span></span></p>
                     <p v-if="state.sus_meter >= 8 && state.sus_meter < 15"><span class="font-bold"> Sus Meter <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">🍑</span></span></p>
-                    <p v-if="state.sus_meter >= 15 && state.sus_meter < 20"><span class="font-bold"> Sus Meter <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">😈</span></span></p>
-                    <p v-if="state.sus_meter > 20"><span class="font-bold"> Sus Meter <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">🍑👑</span></span></p>
+                    <p v-if="state.sus_meter >= 15 && state.sus_meter < 20"><span class="font-bold"> Sus Meter <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">🍑👀</span></span></p>
+                    <p v-if="state.sus_meter > 20"><span class="font-bold"> Sus Meter <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">😈👑</span></span></p>
                   </div>
 
                 </div>
@@ -58,8 +58,8 @@
       </div>
     </div>
 
-    <p v-if="state.displayResults.length > 1" class="text-xs text-center text-stone-400 m-4"> {{ state.displayResults.length }} results found for @{{ state.user.screen_name }} </p>
-    <p v-if="state.displayResults.length == 1" class="text-xs text-center text-stone-400 m-4"> {{ state.displayResults.length }} result found for @{{ state.user.screen_name }} </p>
+    <p v-if="state.displayResults.length > 1" class="text-xs text-center text-stone-400 m-4"> {{ state.displayResults.length }} results out of <span class="font-bold">{{ state.user.friends_count }}</span> found for @{{ state.user.screen_name }} </p>
+    <p v-if="state.displayResults.length == 1" class="text-xs text-center text-stone-400 m-4"> {{ state.displayResults.length }} result out of <span class="font-bold">{{ state.user.friends_count }}</span> found for @{{ state.user.screen_name }} </p>
     <p v-if="state.displayResults.length == 0" class="text-xs text-center text-stone-400 m-4"> {{ state.displayResults.length }} results found for @{{ state.user.screen_name }} </p>
     <div class="max-h-80 overflow-y-auto rounded-lg p-2 bg-stone-900 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 max-w-[800px]">
       <div v-for="item in state.displayResults" :key="item.id" class="bg-stone-800 hover:cursor-pointer rounded-lg p-4 shadow-md text-xs flex flex-col">
@@ -90,8 +90,8 @@
                     <p v-if="item.susMeter === 2 || item.susMeter === 3"><span class="font-bold"> Grade <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">🧐</span></span></p>
                     <p v-if="item.susMeter > 3 && item.susMeter < 8"><span class="font-bold"> Grade <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">🤨</span></span></p>
                     <p v-if="item.susMeter >= 8 && item.susMeter < 12"><span class="font-bold"> Grade <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">🍑</span></span></p>
-                    <p v-if="item.susMeter >= 12"><span class="font-bold"> Grade <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">😈</span></span></p>
-                    <p v-if="item.susMeter > 14"><span class="font-bold"> Grade <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">🍑👑</span></span></p>
+                    <p v-if="item.susMeter >= 12 && item.susMeter < 14"><span class="font-bold"> Grade <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">🍑🧲</span></span></p>
+                    <p v-if="item.susMeter > 14"><span class="font-bold"> Grade <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">😈</span></span></p>
                   </div>
 
                 </div>

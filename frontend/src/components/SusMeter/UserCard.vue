@@ -22,11 +22,12 @@
             <div class="inline-block" @click="toggleGradingSystem">
                 <div class="flex justify-center text-sm">
                 <div :class="susMeter(state.sus_meter)">
-                    <p v-if="state.sus_meter < 4"><span class="font-bold"> Sus Meter <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">😌</span></span></p>
-                    <p v-if="state.sus_meter >= 4 && state.sus_meter < 8"><span class="font-bold"> Sus Meter <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">🤨</span></span></p>
-                    <p v-if="state.sus_meter >= 8 && state.sus_meter < 15"><span class="font-bold"> Sus Meter <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">🍑</span></span></p>
-                    <p v-if="state.sus_meter >= 15 && state.sus_meter < 20"><span class="font-bold"> Sus Meter <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">😈</span></span></p>
-                    <p v-if="state.sus_meter > 20"><span class="font-bold"> Sus Meter <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">🍑👑</span></span></p>
+                    <p v-if="state.sus_meter < 15"><span class="font-bold"> Sus Meter <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">😌</span></span></p>
+                    <p v-if="state.sus_meter >= 15 && state.sus_meter < 30"><span class="font-bold"> Sus Meter <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">🤨</span></span></p>
+                    <p v-if="state.sus_meter >= 30 && state.sus_meter < 100"><span class="font-bold"> Sus Meter <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">🍑</span></span></p>
+                    <p v-if="state.sus_meter >= 100 && state.sus_meter < 500"><span class="font-bold"> Sus Meter <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">🍑👀</span></span></p>
+                    <p v-if="state.sus_meter >= 500 && state.sus_meter < 1000"><span class="font-bold"> Sus Meter <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">😈</span></span></p>
+                    <p v-if="state.sus_meter >= 1000"><span class="font-bold"> Sus Meter <span class="rounded-lg px-2 py-1 bg-black/30 text-base ml-1 mt-1 mb-1">😈👑</span></span></p>
                 </div>
 
                 </div>

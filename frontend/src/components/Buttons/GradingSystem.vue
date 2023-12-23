@@ -27,11 +27,11 @@
           </div>
           <p class="m-2 text-xs font-bold">NSFW</p>
           <div :class="gradeClass(12)">
-            <p><span class="font-bold">Grade <span class="rounded-lg px-2 py-1 bg-black/30 text-base">😈</span></span></p>
+            <p><span class="font-bold">Grade <span class="rounded-lg px-2 py-1 bg-black/30 text-base">🍑🧲</span></span></p>
           </div>
           <p class="m-2 text-xs font-bold">Super NSFW</p>
           <div :class="gradeClass(15)">
-            <p><span class="font-bold">Grade <span class="rounded-lg px-2 py-1 bg-black/30 text-base">🍑🧲</span></span></p>
+            <p><span class="font-bold">Grade <span class="rounded-lg px-2 py-1 bg-black/30 text-base">😈</span></span></p>
           </div>
           <p class="m-2 text-xs font-bold">NSFW Magnet</p>
         </div>

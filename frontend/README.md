@@ -22,3 +22,7 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+docker build --build-arg VUE_AP
+P_BACKEND_IP="http://165.22.67.251:3001" -t sus-meter-frontend .
