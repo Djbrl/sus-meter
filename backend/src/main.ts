@@ -1,11 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+
 import * as cors from 'cors';
 import * as fs from 'fs';
 import * as https from 'https';
 
 async function bootstrap() {
-
     // Load SSL certificate and private key
   const httpsOptions = {
     key: fs.readFileSync('/etc/ssl/private/privkey.pem'),
