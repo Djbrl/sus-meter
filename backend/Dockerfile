@@ -10,6 +10,10 @@ WORKDIR /backend
 COPY package.json .
 COPY package-lock.json .
 
+# Copy SSL certificates
+COPY ssl/fullchain.pem /etc/ssl/certs/fullchain.pem
+COPY ssl/privkey.pem /etc/ssl/private/privkey.pem
+
 
 # Install dependencies
 RUN npm install
