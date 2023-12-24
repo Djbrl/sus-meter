@@ -5,11 +5,11 @@
         <div class="m-5 flex text-stone-500">
         <div class="flex-col flex justify-center ">
         </div>
-        <input v-model="state.username" @keyup.enter="fetchData(state.username)" class="px-4 py-2 text-sm bg-stone-800 rounded-full outline-none placeholder-stone-500" :disabled="state.fetchLoader" placeholder="username"/>
+        <input v-model="localUsername" @keyup.enter="fetchData(localUsername)" class="px-4 py-2 text-sm bg-stone-800 rounded-full outline-none placeholder-stone-500" :disabled="state.fetchLoader" placeholder="username"/>
         </div>
 
         <!-- Loader -->
-        <p v-if="state.noUser" class="text-xs text-center text-stone-400">User @{{ state.username }} doesn't exist.</p>
+        <p v-if="state.noUser" class="text-xs text-center text-stone-400">User @{{ localUsername }} doesn't exist.</p>
         <div v-if="state.fetchLoader" class="animate-bounce text-3xl text-peach-500">
         🤔
         </div>
@@ -46,8 +46,10 @@ export default {
     cancelFetch: Function,
     state: Object,
   },
-  setup() {
-    
-  }
+  data() {
+    return {
+      localUsername: this.state.username || '',
+    };
+  },
 };
 </script>
