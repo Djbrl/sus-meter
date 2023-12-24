@@ -1,21 +1,20 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+import * as cors from 'cors';
+import * as fs from 'fs';
+import * as https from 'https';
 
-  app.enableCors({
-    origin: [
-        'http://165.22.67.251',
-        'http://165.22.67.251:3000',
-        'https://165.22.67.251',
-        'https://sus-meter.com',
-        'http://sus-meter.com',
-        'http://localhost:3000',
-        `http://localhost:${process.env.FRONTEND_HOST_PORT}`,
-    ],
-    credentials: true,
-  });
+async function bootstrap() {
+    // Load SSL certificate and private key
+  const httpsOptions = {
+    key: fs.readFileSync('/etc/ssl/private/privkey.pem'),
+    cert: fs.readFileSync('/etc/ssl/certs/fullchain.pem'),
+  };
+
+  const app = await NestFactory.create(AppModule, { httpsOptions });
+
+  app.enableCors();
   await app.listen(process.env.BACKEND_PORT_VAR || 3000);
 }
 bootstrap();
